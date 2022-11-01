@@ -1,0 +1,25 @@
+version: '3.9'
+
+services:
+  # SpringBoot S3 Example Service
+  spring-boot-s3-example:
+    image: spring-boot-s3-example:latest
+    container_name: spring-boot-s3-example
+    build:
+      context: .
+      args:
+        ARG_JAVA_PROFILE: local # Change this to 'prod' for production
+    restart: unless-stopped
+    ports:
+      - '6660:6660'
+    environment:
+      - AWS_S3_ACCESS_KEY=${AWS_S3_ACCESS_KEY:-your-aws-s3-access-key}
+      - AWS_S3_SECRET_KEY=${AWS_S3_SECRET_KEY:-your-aws-s3-secret-key}
+      - AWS_S3_REGION=${AWS_S3_REGION:-your-aws-s3-region}
+      - AWS_S3_BUCKET_NAME=${AWS_S3_BUCKET_NAME:-your-aws-s3-bucket-name}
+    networks:
+      - example-network
+
+networks:
+  example-network:
+    driver: bridge

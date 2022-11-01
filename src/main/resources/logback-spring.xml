@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration>
+
+<configuration>
+    <!-- Load the active Spring profile and artifactId into properties for conditional logging and filename generation -->
+    <springProperty scope="context" name="springProfile" source="spring.profiles.active"/>
+    <springProperty scope="context" name="artifactId" source="spring.application.name"/>
+
+    <!-- Configuration for local environment -->
+    <springProfile name="local">
+        <!-- Console appender configuration. Logs are displayed in the console. -->
+        <appender name="STDOUT-LOCAL" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder>
+                <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} -- %msg%n</pattern>
+            </encoder>
+        </appender>
+
+        <root level="debug">
+            <appender-ref ref="STDOUT-LOCAL" />
+        </root>
+    </springProfile>
+
+    <!-- Configuration for test environment -->
+    <springProfile name="test">
+        <!-- Console appender configuration. Logs are displayed in the console. -->
+        <appender name="STDOUT-TEST" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder>
+                <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} -- %msg%n</pattern>
+            </encoder>
+        </appender>
+
+        <!-- Rolling file appender configuration. Logs are saved to a file with rolling policies based on size and time. -->
+        <appender name="ROLLING-TEST" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <!-- Use the artifactId for the log file name -->
+            <file>logs/${artifactId}-test.log</file>
+            <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+                <!-- Pattern for archived log files, using the artifactId in the name -->
+                <fileNamePattern>logs/${artifactId}-test.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+                <!-- Keeps the last 12 archived log files. Older ones are deleted. -->
+                <maxHistory>12</maxHistory>
+                <!-- Total size cap for all archived log files combined -->
+                <totalSizeCap>10GB</totalSizeCap>
+                <!-- Log file rolls over when it reaches 500MB in size within a day -->
+                <maxFileSize>500MB</maxFileSize>
+            </rollingPolicy>
+            <encoder>
+                <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} -- %msg%n</pattern>
+            </encoder>
+        </appender>
+
+        <root level="debug">
+            <appender-ref ref="STDOUT-TEST" />
+            <appender-ref ref="ROLLING-TEST" />
+        </root>
+    </springProfile>
+
+    <!-- Configuration for production environment -->
+    <springProfile name="prod">
+        <!-- Console appender configuration. Logs are displayed in the console. -->
+        <appender name="STDOUT-PROD" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder>
+                <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} -- %msg%n</pattern>
+            </encoder>
+        </appender>
+
+        <!-- Rolling file appender configuration. Logs are saved to a file with rolling policies based on size and time. -->
+        <appender name="ROLLING-PROD" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <!-- Use the artifactId for the log file name -->
+            <file>logs/${artifactId}-prod.log</file>
+            <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+                <!-- Pattern for archived log files, using the artifactId in the name -->
+                <fileNamePattern>logs/${artifactId}-prod.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+                <!-- Keeps the last 12 archived log files. Older ones are deleted. -->
+                <maxHistory>12</maxHistory>
+                <!-- Total size cap for all archived log files combined -->
+                <totalSizeCap>10GB</totalSizeCap>
+                <!-- Log file rolls over when it reaches 500MB in size within a day -->
+                <maxFileSize>500MB</maxFileSize>
+            </rollingPolicy>
+            <encoder>
+                <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} -- %msg%n</pattern>
+            </encoder>
+        </appender>
+
+        <root level="info">
+            <appender-ref ref="STDOUT-PROD" />
+            <appender-ref ref="ROLLING-PROD" />
+        </root>
+    </springProfile>
+</configuration>

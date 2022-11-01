@@ -1,0 +1,26 @@
+# Server configuration
+server:
+  port: ${SERVER_PORT:6660}
+
+# Spring configurations
+spring:
+  # Servlet configuration
+  servlet:
+    multipart:
+      max-file-size: 500MB  # Defines the maximum allowed size for uploaded files.
+      max-request-size: 500MB  # Defines the maximum allowed HTTP request size, including file uploads.
+      file-size-threshold: 5MB  # Files larger than this threshold will be written to disk instead of RAM.
+    session:
+      timeout: 10m  # Configures the session timeout duration for handling large file uploads.
+
+# Main configuration for Spring Boot S3 example application
+spring-boot-s3-example:
+  # Storage Configuration
+  storage:
+    main-folder: storage
+
+# Logging configuration
+logging:
+  level:
+    root: INFO
+    com.example.s3integration: INFO
