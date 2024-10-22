@@ -14,6 +14,8 @@ This project primarily demonstrates **S3Client** to give fine-grained control ov
 ### S3Template
 **S3Template** is a higher-level abstraction provided by **Spring Cloud AWS**. It simplifies AWS S3 operations with a Spring-style interface, allowing for easier integration with Spring Boot projects. **S3Template** builds on top of **S3Client**, making common tasks like file upload, download, and deletion much more straightforward. It abstracts away much of the complexity, allowing developers to work more efficiently in Spring ecosystems.
 
+**Note:** When you include the `spring-cloud-aws-starter-s3` dependency, it also provides **S3Client** through auto-configuration. This means that, while **S3Template** simplifies the integration, you still have access to **S3Client** for low-level control if needed. This flexibility allows you to choose between the two based on your project's requirements.
+
 ### Why This Project Uses S3Client
 In this project, I primarily implemented **S3Client** to demonstrate the control and flexibility it offers over AWS S3 operations. However, S3Template can be used as an alternative for developers who are looking for a simpler and more Spring-friendly approach to AWS S3 integration.
 
@@ -35,7 +37,7 @@ Maven Dependencies for S3Client:
 ```
 
 ### Dependency Configuration for AWS S3 using S3Template
-For **S3Template**, we need to include the **Spring Cloud AWS** dependencies in pom.xml. This will enable higher-level integration and **auto-configuration** for AWS S3.
+For **S3Template**, we need to include the **Spring Cloud AWS** dependencies in pom.xml. This will enable higher-level integration and **auto-configuration** for AWS S3, including **S3Client**.
 
 **Maven Dependencies for S3Template:**
 ```xml
@@ -63,7 +65,7 @@ For **S3Template**, we need to include the **Spring Cloud AWS** dependencies in 
 ### Auto-Configuration for AWS S3 using S3Template
 
 **AWS Credentials Configuration for S3Template:**
-When using **S3Template**, Spring Cloud AWS takes care of the **auto-configuration**, meaning we do not need to manually configure **S3Template** as a Spring bean. We only need to configure AWS credentials and region settings in our application.yml file, and the framework handles the rest.
+When using **S3Template**, **Spring Cloud AWS** takes care of the **auto-configuration** for both **S3Template** and **S3Client**. This means we do not need to manually configure **S3Template** or **S3Client** as Spring beans. We only need to configure AWS credentials and region settings in our application.yml file, and the framework automatically handles the rest.
 
 ```yml
 spring:
@@ -77,7 +79,8 @@ spring:
       s3:
         bucket-name: ${AWS_S3_BUCKET_NAME:your-aws-s3-bucket-name}
 ```
-With **S3Template**, Spring Cloud AWS auto-configuration automatically detects and configures the necessary beans for S3 operations, including the credentials and region settings.
+
+With **Spring Cloud AWS**, auto-configuration detects and configures the necessary beans for S3 operations, including both **S3Template** and **S3Client**, along with the AWS credentials and region settings. This allows us to switch between **S3Template** and **S3Client** seamlessly without additional configuration.
 
 ## Using S3Client
 S3Client provides granular control over AWS S3 operations, but it requires more manual configuration and handling. Below is an example of how to configure and use S3Client in your project.
@@ -197,7 +200,7 @@ public class S3TemplateServiceImpl implements S3TemplateService {
 
             s3Template.upload(s3ConfigProperties.getBucketName(), filePath, inputStream, metadata);
             logger.info("File uploaded successfully with filePath: {}", filePath);
-        } catch (IOException e) {
+        } catch (Exception e) {
             logger.error("Upload Error for file {} to bucket {}: {}", filePath, s3ConfigProperties.getBucketName(), e.getMessage(), e);
             throw new S3ServiceException("Upload Error for file: " + filePath, e);
         }
