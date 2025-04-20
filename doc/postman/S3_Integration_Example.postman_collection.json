@@ -1,0 +1,210 @@
+{
+	"info": {
+		"_postman_id": "48b9d97e-f23d-4da3-aca3-f1cdc28941b8",
+		"name": "S3 Integration Example",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "4927198",
+		"_collection_link": "https://winter-rocket-917845.postman.co/workspace/LiveTesting~2078d844-01e8-4384-8d83-2c0a1f72d17a/collection/4927198-48b9d97e-f23d-4da3-aca3-f1cdc28941b8?action=share&source=collection_link&creator=4927198"
+	},
+	"item": [
+		{
+			"name": "File Storage",
+			"item": [
+				{
+					"name": "Upload File (Multipart)",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/Users/testinium/Desktop/test-image.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:6660/api/storage/files",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "6660",
+							"path": [
+								"api",
+								"storage",
+								"files"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Upload File (InputStream)",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/octet-stream",
+								"type": "text"
+							},
+							{
+								"key": "filename",
+								"value": "example-file-name.png",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "file",
+							"file": {
+								"src": "postman-cloud:///1efa59c0-f0fa-4720-a4d7-6f81a3569156"
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:6660/api/storage/files/stream",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "6660",
+							"path": [
+								"api",
+								"storage",
+								"files",
+								"stream"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Download File",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:6660/api/storage/files/bc1e297c-6d35-421c-995c-f60bff575233",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "6660",
+							"path": [
+								"api",
+								"storage",
+								"files",
+								"bc1e297c-6d35-421c-995c-f60bff575233"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete File",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:6660/api/storage/files/bc1e297c-6d35-421c-995c-f60bff575233",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "6660",
+							"path": [
+								"api",
+								"storage",
+								"files",
+								"bc1e297c-6d35-421c-995c-f60bff575233"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Copy File",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"targetDirectory\": \"storage/xxx\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:6660/api/storage/files/108dab76-01b6-4c4c-9680-567a1543cd9c/copy",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "6660",
+							"path": [
+								"api",
+								"storage",
+								"files",
+								"108dab76-01b6-4c4c-9680-567a1543cd9c",
+								"copy"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
